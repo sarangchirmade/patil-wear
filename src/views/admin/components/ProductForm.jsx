@@ -71,7 +71,7 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
   } = useFileHandler({ image: {}, imageCollection: product?.imageCollection || [] });
 
   const onSubmitForm = (form) => {
-    if (imageFile.image.file || product.imageUrl) {
+    if (form?.image || product.imageUrl) {
       onSubmit({
         ...form,
         quantity: 1,
@@ -79,8 +79,8 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
         // of name here instead in firebase functions
         name_lower: form.name.toLowerCase(),
         dateAdded: new Date().getTime(),
-        image: imageFile?.image?.file || product.imageUrl,
-        imageCollection: imageFile.imageCollection
+        image: form?.image || product.imageUrl,
+        imageCollection: imageFile?.imageCollection
       });
     } else {
       // eslint-disable-next-line no-alert
@@ -183,6 +183,19 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
                   />
                 </div>
               </div>
+              <div className="d-flex">
+                <div className="product-form-field">
+                  <Field
+                    disabled={isLoading}
+                    name="image"
+                    type="text"
+                    label="* Product Image"
+                    placeholder="https://sample.image.com"
+                    style={{ textTransform: 'capitalize' }}
+                    component={CustomInput}
+                  />
+                </div>
+                </div>
               <div className="product-form-field">
                 <FieldArray
                   name="availableColors"
@@ -190,7 +203,7 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
                   component={CustomColorInput}
                 />
               </div>
-              <div className="product-form-field">
+              {/* <div className="product-form-field">
                 <span className="d-block padding-s">Image Collection</span>
                 {!isFileLoading && (
                   <label htmlFor="product-input-file-collection">
@@ -206,8 +219,8 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
                     Choose Images
                   </label>
                 )}
-              </div>
-              <div className="product-form-collection">
+              </div> */}
+              {/* <div className="product-form-collection">
                 <>
                   {imageFile.imageCollection.length >= 1 && (
                     imageFile.imageCollection.map((image) => (
@@ -231,7 +244,7 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
                     ))
                   )}
                 </>
-              </div>
+              </div> */}
               <br />
               <div className="d-flex">
                 <div className="product-form-field">
@@ -280,7 +293,7 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
             </div>
             {/* ----THUBMNAIL ---- */}
             <div className="product-form-file">
-              <div className="product-form-field">
+              {/* <div className="product-form-field">
                 <span className="d-block padding-s">* Thumbnail</span>
                 {!isFileLoading && (
                   <label htmlFor="product-input-file">
@@ -295,7 +308,7 @@ const ProductForm = ({ product, onSubmit, isLoading }) => {
                     Choose Image
                   </label>
                 )}
-              </div>
+              </div> */}
               <div className="product-form-image-wrapper">
                 {(imageFile.image.url || product.image) && (
                   <ImageLoader

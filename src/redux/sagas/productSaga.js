@@ -69,13 +69,15 @@ function* productSaga({ type, payload }) {
 
         const { imageCollection } = payload;
         const key = yield call(firebase.generateKey);
-        const downloadURL = yield call(firebase.storeImage, key, 'products', payload.image);
-        const image = { id: key, url: downloadURL };
+        // const downloadURL = yield call(firebase.storeImage, key, 'products', payload.image);
+        const image = { id: key, url: '' };
         let images = [];
 
         if (imageCollection.length !== 0) {
           const imageKeys = yield all(imageCollection.map(() => firebase.generateKey));
-          const imageUrls = yield all(imageCollection.map((img, i) => firebase.storeImage(imageKeys[i](), 'products', img.file)));
+          // const imageUrls = yield all(imageCollection.map((img, i) => firebase.storeImage(imageKeys[i](), 'products', img.file)));
+          const imageUrls = [];
+
           images = imageUrls.map((url, i) => ({
             id: imageKeys[i](),
             url
@@ -84,7 +86,7 @@ function* productSaga({ type, payload }) {
 
         const product = {
           ...payload,
-          image: downloadURL,
+          // image: 'http://localhost:8080/images/logo.621c9003172845a84c9f7d125766500c.jpg',
           imageCollection: [image, ...images]
         };
 
